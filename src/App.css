@@ -1,42 +1,107 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
+body {
+  background: #222;
+  margin: 0;
+  font-family: 'Noto Sans KR', Arial, sans-serif;
+}
+
+.kiosk-bg {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.kiosk-container {
+  width: 340px;
+  background: #fff;
+  border-radius: 12px;
+  padding: 36px 20px 40px 20px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.10);
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.kiosk-title {
+  font-weight: 700;
+  font-size: 18px;
+  margin-bottom: 32px;
+  color: #111;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.mic-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  margin-bottom: 32px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.kiosk-mic {
+  width: 84px;
+  height: 84px;
+  filter: grayscale(1);
 }
 
-.card {
-  padding: 2em;
+.mic-btn:hover .kiosk-mic {
+  filter: brightness(1.2);
+  transform: scale(1.07);
 }
 
-.read-the-docs {
-  color: #888;
+.kiosk-message {
+  font-weight: 700;
+  font-size: 18px;
+  margin-bottom: 24px;
+  line-height: 1.5;
+  color: #111;
+}
+
+.kiosk-desc {
+  color: #666;
+  font-size: 13px;
+  margin-bottom: 10px;
+  line-height: 1.5;
+}
+
+.kiosk-btn {
+  background: #3498f1;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 14px 36px;
+  font-size: 20px;
+  font-weight: 700;
+  margin-top: 10px;
+  cursor: pointer;
+  box-shadow: 0 2px 8px #d0e6fa;
+  transition: background-color 0.2s;
+}
+
+.kiosk-btn:hover {
+  background: #2176c1;
+}
+
+.kiosk-stepper {
+  margin-top: 32px;
+  display: flex;
+  gap: 8px;
+}
+
+.kiosk-stepper button {
+  font-size: 12px;
+  padding: 4px 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background: #888;
+  color: #111;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.kiosk-stepper button:hover {
+  background: #555;
 }

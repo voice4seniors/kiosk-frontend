@@ -1,35 +1,65 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { useState } from "react";
+import "./App.css";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [step, setStep] = useState(0);
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
+    <div className="kiosk-bg">
+      <div className="kiosk-container">
+        <div className="kiosk-title">00 주민센터 안내 도우미</div>
+        <button
+          className="mic-btn"
+          type="button"
+          aria-label="마이크"
+          tabIndex={0}
+          onClick={() => {/* 마이크 클릭 시 동작 추가 가능 */}}
+        >
+          <img
+            src="https://img.icons8.com/flat-round/64/microphone--v1.png"
+            alt="마이크"
+            className="kiosk-mic"
+          />
         </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
+        {step === 0 && (
+          <>
+            <div className="kiosk-message">
+              “궁금하신 내용을 말씀해주시면<br />제가 안내해드릴게요”
+            </div>
+            <div className="kiosk-desc">
+              예) 접수, 순번 확인, 등본 발급<br />
+              또는,<br />
+              ‘도움이 필요해요’라고 말씀해 주세요.
+            </div>
+          </>
+        )}
+        {step === 1 && (
+          <>
+            <div className="kiosk-message">
+              “접수하기 버튼을 눌러주세요”
+            </div>
+            <button className="kiosk-btn" onClick={() => setStep(2)}>
+              접수하기
+            </button>
+          </>
+        )}
+        {step === 2 && (
+          <div className="kiosk-message">
+            “1번 창구로 이동해주세요”
+          </div>
+        )}
+        {/* 단계 테스트용: 실제 서비스 시 삭제 */}
+        <div className="kiosk-stepper">
+          {step > 0 && (
+            <button onClick={() => setStep(step - 1)}>이전</button>
+          )}
+          {step < 2 && (
+            <button onClick={() => setStep(step + 1)}>다음</button>
+          )}
+        </div>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    </div>
+  );
 }
 
-export default App
+export default App;
