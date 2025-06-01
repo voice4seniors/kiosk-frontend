@@ -1,10 +1,4 @@
-body {
-  background: #222;
-  margin: 0;
-  font-family: 'Noto Sans KR', Arial, sans-serif;
-}
-
-.kiosk-bg {
+.wrapper {
   min-height: 100vh;
   display: flex;
   align-items: center;

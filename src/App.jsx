@@ -5,7 +5,7 @@ function App() {
   const [step, setStep] = useState(0);
 
   return (
-    <div className="kiosk-bg">
+    <div className="wrapper">
       <div className="kiosk-container">
         <div className="kiosk-title">00 주민센터 안내 도우미</div>
         <button
