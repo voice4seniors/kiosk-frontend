@@ -1,13 +1,127 @@
 <!doctype html>
-<html lang="en">
+<html lang="ko">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + React</title>
+    <meta name="description" content="어르신을 위한 음성인식 AI 키오스크 - 주민센터 안내 서비스" />
+    <meta name="keywords" content="키오스크, 음성인식, AI, 주민센터, 민원, 시니어" />
+    <meta name="author" content="키오스크 개발팀" />
+    
+    <!-- PWA 관련 메타태그 -->
+    <meta name="theme-color" content="#ffffff" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    
+    <!-- 보안 관련 -->
+    <meta http-equiv="Content-Security-Policy" content="
+      default-src 'self'; 
+      script-src 'self' 'unsafe-inline'; 
+      style-src 'self' 'unsafe-inline'; 
+      img-src 'self' data: https:; 
+      media-src 'self' blob:; 
+      connect-src 'self' http://localhost:8000;
+      microphone: 'self'
+    " />
+    
+    <!-- 폰트 최적화 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <title>🎤 음성인식 키오스크 - 주민센터 안내</title>
+    
+    <!-- 인라인 스타일로 초기 로딩 화면 -->
+    <style>
+      /* 로딩 화면 스타일 */
+      .loading-screen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        color: white;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        z-index: 9999;
+      }
+      
+      .loading-spinner {
+        width: 50px;
+        height: 50px;
+        border: 4px solid rgba(255, 255, 255, 0.3);
+        border-top: 4px solid white;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        margin-bottom: 20px;
+      }
+      
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+      
+      .loading-text {
+        font-size: 18px;
+        margin-bottom: 10px;
+      }
+      
+      .loading-subtext {
+        font-size: 14px;
+        opacity: 0.8;
+      }
+      
+      /* React 앱이 로드되면 로딩 화면 숨기기 */
+      #root:not(:empty) + .loading-screen {
+        display: none;
+      }
+    </style>
   </head>
   <body>
+    <!-- React 앱 마운트 포인트 -->
     <div id="root"></div>
+    
+    <!-- 초기 로딩 화면 -->
+    <div class="loading-screen" id="loading-screen">
+      <div class="loading-spinner"></div>
+      <div class="loading-text">🎤 키오스크 준비 중...</div>
+      <div class="loading-subtext">음성인식 서비스를 로드하고 있습니다</div>
+    </div>
+    
+    <!-- 메인 스크립트 -->
     <script type="module" src="/src/main.jsx"></script>
+    
+    <!-- 로딩 화면 제거 스크립트 -->
+    <script>
+      // React 앱이 완전히 로드된 후 로딩 화면 제거
+      window.addEventListener('load', () => {
+        setTimeout(() => {
+          const loadingScreen = document.getElementById('loading-screen');
+          if (loadingScreen) {
+            loadingScreen.style.opacity = '0';
+            loadingScreen.style.transition = 'opacity 0.5s ease';
+            setTimeout(() => {
+              loadingScreen.remove();
+            }, 500);
+          }
+        }, 1000); // 최소 1초 표시
+      });
+      
+      // 브라우저 호환성 체크
+      if (!window.MediaRecorder || !navigator.mediaDevices) {
+        console.warn('⚠️ 이 브라우저는 음성 녹음을 지원하지 않습니다.');
+      }
+      
+      // 서비스 워커 등록 (PWA용, 선택사항)
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          // navigator.serviceWorker.register('/sw.js');
+        });
+      }
+    </script>
   </body>
 </html>

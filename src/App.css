@@ -1,101 +1,680 @@
+/* ===================================
+   키오스크 메인 스타일
+   =================================== */
+
 .wrapper {
   min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 20px;
+  font-family: 'Noto Sans KR', 'Apple SD Gothic Neo', sans-serif;
 }
 
 .kiosk-container {
-  width: 340px;
-  background: #fff;
-  border-radius: 12px;
-  padding: 36px 20px 40px 20px;
-  box-shadow: 0 4px 24px rgba(0,0,0,0.10);
+  width: 480px;
+  max-width: 90vw;
+  background: #ffffff;
+  border-radius: 24px;
+  padding: 40px 30px 50px 30px;
+  box-shadow: 
+    0 20px 40px rgba(0, 0, 0, 0.15),
+    0 8px 16px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
+  position: relative;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
+/* 키오스크 제목 */
 .kiosk-title {
-  font-weight: 700;
-  font-size: 18px;
-  margin-bottom: 32px;
-  color: #111;
+  font-weight: 800;
+  font-size: 24px;
+  margin-bottom: 15px;
+  color: #2c3e50;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  letter-spacing: -0.5px;
+  background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
+
+/* ===================================
+   연결 상태 표시
+   =================================== */
+
+.connection-status {
+  font-size: 13px;
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: 20px;
+  margin-bottom: 20px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  transition: all 0.3s ease;
+  min-width: 200px;
+}
+
+.connection-status[style*="color: rgb(40, 167, 69)"] {
+  background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+  color: #155724 !important;
+  border-color: #28a745;
+  box-shadow: 0 2px 8px rgba(40, 167, 69, 0.2);
+}
+
+.connection-status[style*="color: rgb(220, 53, 69)"] {
+  background: linear-gradient(135deg, #f8d7da 0%, #f5c6cb 100%);
+  color: #721c24 !important;
+  border-color: #dc3545;
+  box-shadow: 0 2px 8px rgba(220, 53, 69, 0.2);
+}
+
+/* ===================================
+   마이크 버튼 스타일
+   =================================== */
 
 .mic-btn {
-  background: none;
-  border: none;
-  padding: 0;
-  margin-bottom: 32px;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border: 3px solid #dee2e6;
+  border-radius: 50%;
+  padding: 20px;
+  margin-bottom: 25px;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 120px;
+  height: 120px;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
+  box-shadow: 
+    0 8px 25px rgba(0, 0, 0, 0.1),
+    0 3px 6px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
 }
 
+.mic-btn::before {
+  content: '';
+  position: absolute;
+  top: -5px;
+  left: -5px;
+  right: -5px;
+  bottom: -5px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, transparent 0%, rgba(52, 152, 219, 0.1) 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: -1;
+}
+
+.mic-btn:hover::before {
+  opacity: 1;
+}
+
+.mic-btn:hover {
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 
+    0 12px 35px rgba(0, 0, 0, 0.15),
+    0 5px 10px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+.mic-btn:active {
+  transform: translateY(0) scale(1.02);
+}
+
+.mic-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+/* 마이크 아이콘 */
 .kiosk-mic {
-  width: 84px;
-  height: 84px;
-  filter: grayscale(1);
+  width: 64px;
+  height: 64px;
+  filter: grayscale(0.3) brightness(1.1);
+  transition: all 0.3s ease;
 }
 
 .mic-btn:hover .kiosk-mic {
-  filter: brightness(1.2);
-  transform: scale(1.07);
+  filter: grayscale(0) brightness(1.2);
+  transform: scale(1.1);
 }
+
+/* 녹음 중 상태 */
+.mic-btn.listening {
+  background: linear-gradient(135deg, #ff6b6b 0%, #ff5252 100%);
+  border-color: #ff4757;
+  box-shadow: 
+    0 0 30px rgba(255, 107, 107, 0.6),
+    0 8px 25px rgba(255, 107, 107, 0.3);
+  animation: pulse-listening 1.5s infinite;
+}
+
+.mic-btn.listening .kiosk-mic {
+  filter: brightness(0) invert(1);
+}
+
+/* 처리 중 상태 */
+.mic-btn.processing {
+  background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
+  border-color: #3742fa;
+  box-shadow: 
+    0 0 30px rgba(55, 66, 250, 0.6),
+    0 8px 25px rgba(55, 66, 250, 0.3);
+  animation: pulse-processing 2s infinite;
+}
+
+.mic-btn.processing .kiosk-mic {
+  filter: brightness(0) invert(1);
+}
+
+/* 마이크 버튼 애니메이션 */
+@keyframes pulse-listening {
+  0% { 
+    transform: scale(1);
+    box-shadow: 0 0 30px rgba(255, 107, 107, 0.6);
+  }
+  50% { 
+    transform: scale(1.05);
+    box-shadow: 0 0 40px rgba(255, 107, 107, 0.8);
+  }
+  100% { 
+    transform: scale(1);
+    box-shadow: 0 0 30px rgba(255, 107, 107, 0.6);
+  }
+}
+
+@keyframes pulse-processing {
+  0% { 
+    transform: scale(1) rotate(0deg);
+    box-shadow: 0 0 30px rgba(55, 66, 250, 0.6);
+  }
+  50% { 
+    transform: scale(1.02) rotate(180deg);
+    box-shadow: 0 0 40px rgba(55, 66, 250, 0.8);
+  }
+  100% { 
+    transform: scale(1) rotate(360deg);
+    box-shadow: 0 0 30px rgba(55, 66, 250, 0.6);
+  }
+}
+
+/* ===================================
+   상태 표시 영역
+   =================================== */
+
+.listening-indicator, .processing-indicator {
+  text-align: center;
+  font-weight: 700;
+  padding: 12px 20px;
+  border-radius: 25px;
+  margin: 15px auto;
+  max-width: 280px;
+  backdrop-filter: blur(10px);
+  border: 2px solid;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.listening-indicator {
+  background: linear-gradient(135deg, #fff5f5 0%, #fed7d7 100%);
+  color: #c53030;
+  border-color: #ff6b6b;
+  animation: breathe 2s infinite;
+}
+
+.processing-indicator {
+  background: linear-gradient(135deg, #f0f8ff 0%, #dbeafe 100%);
+  color: #1e40af;
+  border-color: #3b82f6;
+  animation: shimmer 2s infinite;
+}
+
+.listening-indicator::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  animation: slide 1.5s infinite;
+}
+
+@keyframes breathe {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.02); }
+}
+
+@keyframes shimmer {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.8; }
+}
+
+@keyframes slide {
+  0% { left: -100%; }
+  100% { left: 100%; }
+}
+
+/* ===================================
+   인식된 텍스트 표시
+   =================================== */
+
+.recognized-text {
+  margin: 20px auto;
+  padding: 20px;
+  background: linear-gradient(135deg, #e8f5e8 0%, #d4edda 100%);
+  border: 2px solid #28a745;
+  border-radius: 16px;
+  font-size: 15px;
+  max-width: 400px;
+  box-shadow: 
+    0 6px 20px rgba(40, 167, 69, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  animation: slideInUp 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
+}
+
+.recognized-text::before {
+  content: '💬';
+  position: absolute;
+  top: -10px;
+  left: 20px;
+  background: #28a745;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 15px;
+  font-size: 12px;
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ===================================
+   메시지 및 설명 텍스트
+   =================================== */
 
 .kiosk-message {
   font-weight: 700;
-  font-size: 18px;
-  margin-bottom: 24px;
-  line-height: 1.5;
-  color: #111;
+  font-size: 20px;
+  margin-bottom: 20px;
+  line-height: 1.4;
+  color: #2c3e50;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  letter-spacing: -0.3px;
 }
 
 .kiosk-desc {
-  color: #666;
-  font-size: 13px;
-  margin-bottom: 10px;
-  line-height: 1.5;
+  color: #6c757d;
+  font-size: 14px;
+  margin-bottom: 15px;
+  line-height: 1.6;
+  font-weight: 500;
+  background: rgba(108, 117, 125, 0.05);
+  padding: 15px;
+  border-radius: 12px;
+  border: 1px solid rgba(108, 117, 125, 0.1);
 }
 
+/* ===================================
+   버튼 스타일
+   =================================== */
+
 .kiosk-btn {
-  background: #3498f1;
-  color: #fff;
+  background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+  color: #ffffff;
   border: none;
-  border-radius: 8px;
-  padding: 14px 36px;
-  font-size: 20px;
+  border-radius: 16px;
+  padding: 18px 40px;
+  font-size: 18px;
   font-weight: 700;
-  margin-top: 10px;
+  margin-top: 15px;
   cursor: pointer;
-  box-shadow: 0 2px 8px #d0e6fa;
-  transition: background-color 0.2s;
+  box-shadow: 
+    0 8px 20px rgba(52, 152, 219, 0.3),
+    0 3px 6px rgba(52, 152, 219, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  letter-spacing: -0.3px;
+  position: relative;
+  overflow: hidden;
+}
+
+.kiosk-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+}
+
+.kiosk-btn:hover::before {
+  left: 100%;
 }
 
 .kiosk-btn:hover {
-  background: #2176c1;
+  background: linear-gradient(135deg, #2980b9 0%, #1c5aa3 100%);
+  transform: translateY(-2px);
+  box-shadow: 
+    0 12px 30px rgba(52, 152, 219, 0.4),
+    0 5px 10px rgba(52, 152, 219, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
+.kiosk-btn:active {
+  transform: translateY(0);
+  box-shadow: 
+    0 4px 10px rgba(52, 152, 219, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+/* ===================================
+   개발 도구 영역
+   =================================== */
+
+.dev-controls {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border: 1px solid #dee2e6;
+  border-radius: 16px;
+  backdrop-filter: blur(10px);
+  margin-top: 25px;
+  padding: 15px;
+  font-size: 12px;
+  box-shadow: 
+    0 4px 15px rgba(0, 0, 0, 0.05),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+.dev-controls button {
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  padding: 8px 12px;
+  margin: 0 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 11px;
+  font-weight: 600;
+  color: #495057;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.dev-controls button:hover {
+  background: linear-gradient(135deg, #e9ecef 0%, #dee2e6 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.dev-controls button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ===================================
+   단계 네비게이션
+   =================================== */
+
 .kiosk-stepper {
-  margin-top: 32px;
+  margin-top: 25px;
   display: flex;
-  gap: 8px;
+  gap: 12px;
+  justify-content: center;
 }
 
 .kiosk-stepper button {
-  font-size: 12px;
-  padding: 4px 12px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  background: #888;
-  color: #111;
+  font-size: 13px;
+  padding: 8px 16px;
+  border: 2px solid #6c757d;
+  border-radius: 20px;
+  background: linear-gradient(135deg, #6c757d 0%, #5a6268 100%);
+  color: #ffffff;
   cursor: pointer;
-  transition: background-color 0.2s;
+  transition: all 0.3s ease;
+  font-weight: 600;
+  box-shadow: 0 3px 8px rgba(108, 117, 125, 0.2);
 }
 
 .kiosk-stepper button:hover {
-  background: #555;
+  background: linear-gradient(135deg, #5a6268 0%, #495057 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 5px 12px rgba(108, 117, 125, 0.3);
+}
+
+/* ===================================
+   반응형 디자인
+   =================================== */
+
+@media (max-width: 768px) {
+  .wrapper {
+    padding: 10px;
+  }
+  
+  .kiosk-container {
+    width: 100%;
+    max-width: 400px;
+    padding: 30px 20px 40px 20px;
+  }
+  
+  .kiosk-title {
+    font-size: 20px;
+    margin-bottom: 12px;
+  }
+  
+  .mic-btn {
+    width: 100px;
+    height: 100px;
+    padding: 15px;
+  }
+  
+  .kiosk-mic {
+    width: 56px;
+    height: 56px;
+  }
+  
+  .kiosk-message {
+    font-size: 18px;
+  }
+  
+  .recognized-text {
+    font-size: 14px;
+    padding: 15px;
+    max-width: 90%;
+  }
+  
+  .dev-controls {
+    padding: 12px;
+  }
+  
+  .dev-controls button {
+    padding: 6px 10px;
+    font-size: 10px;
+    margin: 2px;
+  }
+}
+
+@media (max-width: 480px) {
+  .kiosk-container {
+    border-radius: 16px;
+    padding: 25px 15px 35px 15px;
+  }
+  
+  .kiosk-title {
+    font-size: 18px;
+  }
+  
+  .mic-btn {
+    width: 90px;
+    height: 90px;
+  }
+  
+  .kiosk-mic {
+    width: 48px;
+    height: 48px;
+  }
+  
+  .kiosk-message {
+    font-size: 16px;
+  }
+  
+  .kiosk-btn {
+    padding: 15px 30px;
+    font-size: 16px;
+  }
+}
+
+/* ===================================
+   접근성 및 포커스 스타일
+   =================================== */
+
+.mic-btn:focus,
+.kiosk-btn:focus {
+  outline: 3px solid #007bff;
+  outline-offset: 3px;
+}
+
+.kiosk-stepper button:focus,
+.dev-controls button:focus {
+  outline: 2px solid #007bff;
+  outline-offset: 2px;
+}
+
+/* ===================================
+   다크모드 지원
+   =================================== */
+
+@media (prefers-color-scheme: dark) {
+  .wrapper {
+    background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+  }
+  
+  .kiosk-container {
+    background: #2c3e50;
+    color: #ecf0f1;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .kiosk-title {
+    color: #ecf0f1;
+    background: linear-gradient(135deg, #ecf0f1 0%, #bdc3c7 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  
+  .kiosk-message {
+    color: #ecf0f1;
+  }
+  
+  .kiosk-desc {
+    color: #bdc3c7;
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  .recognized-text {
+    background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+    color: #ffffff;
+    border-color: #27ae60;
+  }
+}
+
+/* ===================================
+   애니메이션 최적화
+   =================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* TTS 음성 출력 중 상태 */
+.mic-btn.speaking {
+  background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+  border-color: #28a745;
+  box-shadow: 
+    0 0 30px rgba(40, 167, 69, 0.6),
+    0 8px 25px rgba(40, 167, 69, 0.3);
+  animation: pulse-speaking 2s infinite;
+}
+
+.mic-btn.speaking .kiosk-mic {
+  filter: brightness(0) invert(1);
+}
+
+/* TTS 음성 출력 중 애니메이션 */
+@keyframes pulse-speaking {
+  0% { 
+    transform: scale(1);
+    box-shadow: 0 0 30px rgba(40, 167, 69, 0.6);
+  }
+  50% { 
+    transform: scale(1.03);
+    box-shadow: 0 0 40px rgba(40, 167, 69, 0.8);
+  }
+  100% { 
+    transform: scale(1);
+    box-shadow: 0 0 30px rgba(40, 167, 69, 0.6);
+  }
+}
+
+/* 음성 안내 중 표시 */
+.speaking-indicator {
+  text-align: center;
+  font-weight: 700;
+  padding: 12px 20px;
+  border-radius: 25px;
+  margin: 15px auto;
+  max-width: 280px;
+  backdrop-filter: blur(10px);
+  border: 2px solid #4caf50;
+  box-shadow: 0 4px 15px rgba(76, 175, 80, 0.2);
+  position: relative;
+  overflow: hidden;
+  animation: breathe-green 2s infinite;
+}
+
+@keyframes breathe-green {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.02); opacity: 0.9; }
+}
+
+/* TTS 제어 버튼 호버 효과 */
+button[title*="음성"] {
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+button[title*="음성"]:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* TTS 비활성화 상태에서의 시각적 피드백 */
+.tts-disabled .speaking-indicator,
+.tts-disabled .mic-btn.speaking {
+  opacity: 0.5;
+  filter: grayscale(50%);
 }
